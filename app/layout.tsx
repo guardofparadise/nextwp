@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import WordPressHeader from "@/components/WordPressHeader";
+import WordPressFooter from "@/components/WordPressFooter";
 import ElementorStyles from "@/components/ElementorStyles";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -36,11 +36,11 @@ export default function RootLayout({
       <body className={`${inter.className} antialiased`}>
         <ElementorStyles />
         <div className="min-h-screen flex flex-col">
-          <Header />
+          <WordPressHeader />
           <main className="flex-grow">
             {children}
           </main>
-          <Footer />
+          <WordPressFooter />
         </div>
       </body>
     </html>

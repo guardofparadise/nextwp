@@ -1,20 +1,17 @@
 import axios from 'axios';
 
-// Use WordPress API directly in production, proxy for development
+// Use Vercel proxy in production for consistent API layer
 const getBaseURL = () => {
   if (typeof window !== 'undefined') {
-    // Client-side - use WordPress API directly in production, proxy in development
-    const isProduction = process.env.NODE_ENV === 'production';
-    const baseUrl = isProduction 
-      ? 'https://wordpress-1406888-5229870.cloudwaysapps.com/wp-json/wp/v2'
-      : '/api/wordpress';
+    // Client-side - always use relative proxy URL
+    const baseUrl = '/api/wordpress';
     console.log('🔍 Client-side API base URL:', baseUrl);
     return baseUrl;
   } else {
-    // Server-side - use WordPress API directly in production, localhost proxy in development
+    // Server-side - use full URL for SSR
     const isProduction = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV;
     const baseUrl = isProduction 
-      ? 'https://wordpress-1406888-5229870.cloudwaysapps.com/wp-json/wp/v2'
+      ? 'https://nextwp-three.vercel.app/api/wordpress'
       : 'http://localhost:3004/api/wordpress';
     console.log('🔍 Server-side API base URL:', baseUrl);
     console.log('🔍 NODE_ENV:', process.env.NODE_ENV);

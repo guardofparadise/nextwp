@@ -45,7 +45,7 @@ export default async function Home() {
   try {
     const isProduction = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV;
     const baseUrl = isProduction 
-      ? 'https://wordpress-1406888-5229870.cloudwaysapps.com/wp-json/wp/v2'
+      ? 'https://nextwp-three.vercel.app/api/wordpress'
       : 'http://localhost:3004/api/wordpress';
     
     console.log('🏠 Homepage content fetch URL:', `${baseUrl}/pages/home`);

@@ -4,13 +4,17 @@ import axios from 'axios';
 const getBaseURL = () => {
   if (typeof window !== 'undefined') {
     // Client-side
+    console.log('🔍 Client-side API base URL: /api/wordpress');
     return '/api/wordpress';
   } else {
     // Server-side - use VERCEL_URL in production, localhost in development
     const baseUrl = process.env.VERCEL_URL 
       ? `https://${process.env.VERCEL_URL}`
-      : 'http://localhost:3004';
-    return `${baseUrl}/api/wordpress`;
+      : 'http://localhost:3006';
+    const fullUrl = `${baseUrl}/api/wordpress`;
+    console.log('🔍 Server-side API base URL:', fullUrl);
+    console.log('🔍 VERCEL_URL env var:', process.env.VERCEL_URL);
+    return fullUrl;
   }
 };
 
@@ -171,6 +175,9 @@ export const wpApi = {
     order?: 'asc' | 'desc';
     _embed?: boolean;
   }): Promise<{ posts: Post[]; total: number; totalPages: number }> {
+    console.log('🚀 wpApi.getPosts called with params:', params);
+    console.log('🔗 Axios base URL:', api.defaults.baseURL);
+    
     const response = await api.get('/posts', {
       params: {
         per_page: params?.per_page || 10,
@@ -184,6 +191,7 @@ export const wpApi = {
       },
     });
     
+    console.log('✅ wpApi.getPosts response received, total posts:', response.data?.posts?.length || 0);
     return response.data;
   },
 

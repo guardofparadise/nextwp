@@ -45,7 +45,7 @@ export default async function Home() {
   try {
     const baseUrl = process.env.VERCEL_URL 
       ? `https://${process.env.VERCEL_URL}`
-      : 'http://localhost:3004';
+      : 'http://localhost:3006';
     const response = await fetch(`${baseUrl}/api/wordpress/pages/home`, {
       cache: 'no-store',
     });

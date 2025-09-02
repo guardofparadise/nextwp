@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 interface ElementorStylesData {
   styles: string;
   stylesheets: string[];
-  elementorConfig: any;
+  elementorConfig: Record<string, unknown> | null;
   rootVars: string;
   customCss: string;
   elementorBase: string;

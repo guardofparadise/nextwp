@@ -1,7 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
+import { useEffect, useState, useCallback } from 'react';
 
 interface GalleryImage {
   src: string;
@@ -34,7 +33,7 @@ export default function GutenbergGallery() {
           
           // Add click handler to open lightbox
           img.style.cursor = 'pointer';
-          img.onclick = (e) => {
+          (img as HTMLImageElement).onclick = (e) => {
             e.preventDefault();
             setGalleryImages(allImages);
             setCurrentIndex(index);
@@ -48,7 +47,7 @@ export default function GutenbergGallery() {
       linkedImages.forEach(link => {
         const img = link.querySelector('img');
         if (img && link.getAttribute('href')?.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
-          link.onclick = (e) => {
+          (link as HTMLAnchorElement).onclick = (e) => {
             e.preventDefault();
             const imageData: GalleryImage = {
               src: link.getAttribute('href') || img.src,
@@ -81,24 +80,24 @@ export default function GutenbergGallery() {
     };
   }, []);
 
-  const closeLightbox = () => {
+  const closeLightbox = useCallback(() => {
     setLightboxImage(null);
     setGalleryImages([]);
-  };
+  }, []);
 
-  const goToPrevious = () => {
+  const goToPrevious = useCallback(() => {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
       setLightboxImage(galleryImages[currentIndex - 1]);
     }
-  };
+  }, [currentIndex, galleryImages]);
 
-  const goToNext = () => {
+  const goToNext = useCallback(() => {
     if (currentIndex < galleryImages.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setLightboxImage(galleryImages[currentIndex + 1]);
     }
-  };
+  }, [currentIndex, galleryImages]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -111,7 +110,7 @@ export default function GutenbergGallery() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [lightboxImage, currentIndex, galleryImages]);
+  }, [lightboxImage, closeLightbox, goToPrevious, goToNext]);
 
   if (!lightboxImage) return null;
 

@@ -104,7 +104,6 @@ export default async function BlogPost({ params }: Props) {
 
         <BlogPostContent 
           content={sanitizeHtml(post.content.rendered)} 
-          title={stripHtml(post.title.rendered)}
         />
 
         <div className="mt-12 pt-8 border-t border-gray-200">

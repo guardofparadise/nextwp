@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
 const WP_API_BASE = process.env.NEXT_PUBLIC_WORDPRESS_API_URL?.replace('/wp-json/wp/v2', '') || 'https://vladclaudecode.wpenginepowered.com';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // First try the WordPress REST API Menus plugin endpoint
     const wpMenuUrl = new URL(`${WP_API_BASE}/index.php`);
@@ -42,7 +42,13 @@ export async function GET(request: NextRequest) {
       const pages = await response.json();
       
       // Transform pages into menu items
-      const menuItems = pages.map((page: any) => ({
+      const menuItems = pages.map((page: {
+        id: number;
+        title: { rendered: string };
+        slug: string;
+        parent: number;
+        menu_order: number;
+      }) => ({
         id: page.id,
         title: page.title.rendered,
         url: `/${page.slug}`,
@@ -52,7 +58,7 @@ export async function GET(request: NextRequest) {
       }));
 
       return NextResponse.json({ 
-        menu: menuItems.filter((item: any) => item.parent === 0), // Only top-level pages
+        menu: menuItems.filter((item: { parent: number }) => item.parent === 0), // Only top-level pages
         type: 'pages' 
       });
     }

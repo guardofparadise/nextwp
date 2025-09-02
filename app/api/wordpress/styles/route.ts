@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
 const WP_API_BASE = process.env.NEXT_PUBLIC_WORDPRESS_API_URL?.replace('/wp-json/wp/v2', '') || 'https://vladclaudecode.wpenginepowered.com';
 const WP_SITE_URL = WP_API_BASE;
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // Fetch the homepage or any page to extract styles
     const homeUrl = `${WP_SITE_URL}/`;
@@ -25,7 +25,6 @@ export async function GET(request: NextRequest) {
     
     // Extract Elementor styles and other important styles
     const styles: string[] = [];
-    const scripts: string[] = [];
     
     // Extract all <style> tags
     const styleRegex = /<style[^>]*>([\s\S]*?)<\/style>/gi;
@@ -72,7 +71,7 @@ export async function GET(request: NextRequest) {
           .replace(/,\s*}/g, '}')
           .replace(/,\s*]/g, ']');
         elementorConfig = JSON.parse(cleanConfig);
-      } catch (e) {
+      } catch {
         console.log('Could not parse Elementor config');
       }
     }

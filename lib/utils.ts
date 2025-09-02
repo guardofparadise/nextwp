@@ -28,21 +28,27 @@ export function getExcerpt(content: string, maxLength: number = 150): string {
   return truncateText(stripped, maxLength);
 }
 
-export function getFeaturedImageUrl(post: any): string | null {
+export function getFeaturedImageUrl(post: {
+  _embedded?: { 'wp:featuredmedia'?: Array<{ source_url: string }> };
+}): string | null {
   if (post._embedded?.['wp:featuredmedia']?.[0]?.source_url) {
     return post._embedded['wp:featuredmedia'][0].source_url;
   }
   return null;
 }
 
-export function getAuthorName(post: any): string {
+export function getAuthorName(post: {
+  _embedded?: { author?: Array<{ name: string }> };
+}): string {
   if (post._embedded?.author?.[0]?.name) {
     return post._embedded.author[0].name;
   }
   return 'Unknown Author';
 }
 
-export function getAuthorAvatar(post: any): string | null {
+export function getAuthorAvatar(post: {
+  _embedded?: { author?: Array<{ avatar_urls: { '96': string } }> };
+}): string | null {
   if (post._embedded?.author?.[0]?.avatar_urls?.['96']) {
     return post._embedded.author[0].avatar_urls['96'];
   }

@@ -1,11 +1,13 @@
-import { wpApi } from '@/lib/api';
+import { wpApi, Post } from '@/lib/api';
 import PostCard from '@/components/PostCard';
 import PageElementorStyles from '@/components/PageElementorStyles';
 import Link from 'next/link';
 
 export default async function Home() {
-  let posts = [];
-  let homepageContent = null;
+  let posts: Post[] = [];
+  let homepageContent: {
+    content: { rendered: string };
+  } | null = null;
   let hasError = false;
   
   try {
@@ -130,7 +132,7 @@ export default async function Home() {
                     <p className="font-medium mb-1">To fix this:</p>
                     <ol className="list-decimal list-inside space-y-1 text-left">
                       <li>Ensure WordPress REST API is enabled</li>
-                      <li>Check permalink settings (use "Post name")</li>
+                      <li>Check permalink settings (use &ldquo;Post name&rdquo;)</li>
                       <li>Verify the API URL in .env.local</li>
                       <li>Check for security plugins blocking API access</li>
                     </ol>

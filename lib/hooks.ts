@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { wpApi, Post, Page, Category, Tag } from './api';
+import { wpApi } from './api';
 
 export function usePosts(params?: Parameters<typeof wpApi.getPosts>[0]) {
   const key = params ? ['posts', params] : 'posts';

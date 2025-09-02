@@ -49,7 +49,7 @@ export interface Post {
   sticky: boolean;
   template: string;
   format: string;
-  meta: any[];
+  meta: Record<string, unknown>[];
   categories: number[];
   tags: number[];
   _embedded?: {
@@ -98,7 +98,7 @@ export interface Page {
   comment_status: string;
   ping_status: string;
   template: string;
-  meta: any[];
+  meta: Record<string, unknown>[];
 }
 
 export interface Category {
@@ -110,7 +110,7 @@ export interface Category {
   slug: string;
   taxonomy: string;
   parent: number;
-  meta: any[];
+  meta: Record<string, unknown>[];
 }
 
 export interface Tag {
@@ -121,7 +121,7 @@ export interface Tag {
   name: string;
   slug: string;
   taxonomy: string;
-  meta: any[];
+  meta: Record<string, unknown>[];
 }
 
 export interface Media {

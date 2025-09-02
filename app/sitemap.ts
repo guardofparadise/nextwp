@@ -1,11 +1,25 @@
 import { MetadataRoute } from 'next';
-import { wpApi } from '@/lib/api';
+import { wpApi, Post, Page } from '@/lib/api';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://yoursite.com';
 
-  const { posts } = await wpApi.getPosts({ per_page: 100 });
-  const { pages } = await wpApi.getPages({ per_page: 100 });
+  let posts: Post[] = [];
+  let pages: Page[] = [];
+
+  try {
+    const postsData = await wpApi.getPosts({ per_page: 100 });
+    posts = postsData.posts || [];
+  } catch (error) {
+    console.log('Could not fetch posts for sitemap:', error);
+  }
+
+  try {
+    const pagesData = await wpApi.getPages({ per_page: 100 });
+    pages = pagesData.pages || [];
+  } catch (error) {
+    console.log('Could not fetch pages for sitemap:', error);
+  }
 
   const postUrls = posts.map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,

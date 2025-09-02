@@ -6,10 +6,9 @@ import PageElementorStyles from './PageElementorStyles';
 
 interface BlogPostContentProps {
   content: string;
-  title: string;
 }
 
-export default function BlogPostContent({ content, title }: BlogPostContentProps) {
+export default function BlogPostContent({ content }: BlogPostContentProps) {
   useEffect(() => {
     // Add Gutenberg block editor styles
     const gutenbergStyles = `

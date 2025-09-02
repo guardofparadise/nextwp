@@ -77,7 +77,7 @@ export default async function AboutPage() {
 
           <h2 className="text-3xl font-bold mt-8 mb-4">Get in Touch</h2>
           <p className="text-gray-700">
-            We'd love to hear from you! Whether you have questions, feedback, or just want to say hello, 
+            We&apos;d love to hear from you! Whether you have questions, feedback, or just want to say hello, 
             feel free to reach out through our contact page.
           </p>
         </div>

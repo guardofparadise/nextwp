@@ -23,7 +23,12 @@ export default function Header() {
       .then(data => {
         if (data.menu && Array.isArray(data.menu)) {
           // Transform menu items to match our format
-          const menuItems = data.menu.map((item: any) => ({
+          const menuItems = data.menu.map((item: {
+            id: number;
+            title: string;
+            url: string;
+            slug: string;
+          }) => ({
             id: item.id,
             title: item.title.replace(/&#8217;/g, "'").replace(/&amp;/g, "&"),
             url: item.url,

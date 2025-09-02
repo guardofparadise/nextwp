@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Metadata } from 'next';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -50,8 +49,8 @@ export default function ContactPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <div>
             <p className="text-gray-700 mb-6">
-              We'd love to hear from you! Whether you have a question about our content, 
-              need technical support, or just want to share your thoughts, we're here to help.
+              We&apos;d love to hear from you! Whether you have a question about our content, 
+              need technical support, or just want to share your thoughts, we&apos;re here to help.
             </p>
 
             <div className="space-y-4">
@@ -223,7 +222,7 @@ export default function ContactPage() {
 
               {submitStatus === 'success' && (
                 <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                  <p className="text-green-800">Thank you for your message! We'll get back to you soon.</p>
+                  <p className="text-green-800">Thank you for your message! We&apos;ll get back to you soon.</p>
                 </div>
               )}
 

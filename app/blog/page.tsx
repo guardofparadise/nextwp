@@ -11,7 +11,14 @@ export default function BlogPage() {
   const { data, error, isLoading, mutate } = usePosts({ per_page: 9, page, _embed: true });
 
   if (isLoading) return <LoadingSpinner />;
-  if (error) return <ErrorMessage message="Failed to load posts" retry={() => mutate()} />;
+  if (error) return (
+    <ErrorMessage 
+      message="Failed to load blog posts from WordPress API" 
+      error={error}
+      retry={() => mutate()} 
+      showDetails={true}
+    />
+  );
   if (!data) return null;
 
   const { posts, totalPages } = data || { posts: [], totalPages: 0 };

@@ -27,6 +27,48 @@ export default function WordPressHeader() {
 
   // If WordPress header content is available, use it
   if (headerData?.hasContent && headerData.content) {
+    // Process the HTML to replace WordPress URLs with local routes
+    let processedContent = headerData.content;
+    
+    // Replace WordPress home URL with local root
+    processedContent = processedContent.replace(
+      /https:\/\/vladclaudecode\.wpenginepowered\.com\/?"/g, 
+      '/"'
+    );
+    processedContent = processedContent.replace(
+      /http:\/\/vladclaudecode\.wpenginepowered\.com\/?"/g, 
+      '/"'
+    );
+    
+    // Map specific WordPress pages to local routes
+    processedContent = processedContent.replace(
+      /https:\/\/vladclaudecode\.wpenginepowered\.com\/our-team\/?"/g, 
+      '/about"'
+    );
+    processedContent = processedContent.replace(
+      /http:\/\/vladclaudecode\.wpenginepowered\.com\/our-team\/?"/g, 
+      '/about"'
+    );
+    
+    processedContent = processedContent.replace(
+      /https:\/\/vladclaudecode\.wpenginepowered\.com\/contact-us\/?"/g, 
+      '/contact"'
+    );
+    processedContent = processedContent.replace(
+      /http:\/\/vladclaudecode\.wpenginepowered\.com\/contact-us\/?"/g, 
+      '/contact"'
+    );
+    
+    // Map our-menu to blog (or remove if not needed)
+    processedContent = processedContent.replace(
+      /https:\/\/vladclaudecode\.wpenginepowered\.com\/our-menu\/?"/g, 
+      '/blog"'
+    );
+    processedContent = processedContent.replace(
+      /http:\/\/vladclaudecode\.wpenginepowered\.com\/our-menu\/?"/g, 
+      '/blog"'
+    );
+
     return (
       <>
         {headerData.styles && (
@@ -34,7 +76,7 @@ export default function WordPressHeader() {
         )}
         <div 
           className="wordpress-header"
-          dangerouslySetInnerHTML={{ __html: headerData.content }}
+          dangerouslySetInnerHTML={{ __html: processedContent }}
         />
       </>
     );

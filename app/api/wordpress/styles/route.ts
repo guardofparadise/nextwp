@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 
-const WP_API_BASE = process.env.NEXT_PUBLIC_WORDPRESS_API_URL?.replace('/wp-json/wp/v2', '') || 'https://wordpress-1406888-5229870.cloudwaysapps.com';
-const WP_SITE_URL = WP_API_BASE;
+const WP_API_BASE = process.env.NEXT_PUBLIC_WORDPRESS_API_URL?.replace('/wp-json/wp/v2', '') || 'https://vladclaudecode.wpenginepowered.com';
+// Force HTTPS for stylesheets
+const WP_SITE_URL = WP_API_BASE.replace('http://', 'https://');
 
 export async function GET() {
   try {
@@ -53,7 +54,9 @@ export async function GET() {
         if (hrefMatch[1].includes('elementor') || 
             hrefMatch[1].includes('wp-content/themes') ||
             hrefMatch[1].includes('wp-includes/css')) {
-          links.push(hrefMatch[1]);
+          // Ensure HTTPS for all stylesheet URLs
+          const url = hrefMatch[1].replace('http://', 'https://');
+          links.push(url);
         }
       }
     }

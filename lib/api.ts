@@ -6,8 +6,11 @@ const getBaseURL = () => {
     // Client-side
     return '/api/wordpress';
   } else {
-    // Server-side
-    return `http://localhost:3004/api/wordpress`;
+    // Server-side - use VERCEL_URL in production, localhost in development
+    const baseUrl = process.env.VERCEL_URL 
+      ? `https://${process.env.VERCEL_URL}`
+      : 'http://localhost:3004';
+    return `${baseUrl}/api/wordpress`;
   }
 };
 

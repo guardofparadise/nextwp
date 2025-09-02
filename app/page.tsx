@@ -23,7 +23,10 @@ export default async function Home() {
 
   // Fetch homepage content from WordPress
   try {
-    const response = await fetch(`http://localhost:3004/api/wordpress/pages/home`, {
+    const baseUrl = process.env.VERCEL_URL 
+      ? `https://${process.env.VERCEL_URL}`
+      : 'http://localhost:3004';
+    const response = await fetch(`${baseUrl}/api/wordpress/pages/home`, {
       cache: 'no-store',
     });
     

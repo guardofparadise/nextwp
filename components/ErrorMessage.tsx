@@ -75,7 +75,7 @@ export default function ErrorMessage({
                 </button>
               )}
               <a 
-                href="https://vladclaudecode.wpenginepowered.com/wp-json/wp/v2/posts" 
+                href="https://wordpress-1406888-5229870.cloudwaysapps.com/wp-json/wp/v2/posts" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="inline-flex items-center px-3 py-1.5 bg-gray-600 text-white text-sm rounded hover:bg-gray-700 transition-colors"

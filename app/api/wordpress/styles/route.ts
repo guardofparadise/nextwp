@@ -11,18 +11,19 @@ export async function GET() {
     
     console.log('Fetching WordPress styles from:', homeUrl);
     
-    const response = await fetch(homeUrl, {
+    const fetchResponse = await fetch(homeUrl, {
       headers: {
         'User-Agent': 'NextJS-Frontend/1.0',
       },
-      cache: 'no-store',
+      // Use cache for styles to improve loading speed
+      next: { revalidate: 300 }, // Cache for 5 minutes
     });
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch WordPress page: ${response.status}`);
+    if (!fetchResponse.ok) {
+      throw new Error(`Failed to fetch WordPress page: ${fetchResponse.status}`);
     }
 
-    const html = await response.text();
+    const html = await fetchResponse.text();
     
     // Extract Elementor styles and other important styles
     const styles: string[] = [];
@@ -102,7 +103,7 @@ export async function GET() {
       customCss += customCssMatch[0] + '\n';
     }
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       styles: styles.join('\n'),
       stylesheets: links,
       elementorConfig,
@@ -281,6 +282,12 @@ export async function GET() {
         }
       `,
     });
+
+    // Add cache headers for better performance
+    response.headers.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600');
+    response.headers.set('Content-Type', 'application/json');
+    
+    return response;
   } catch (error) {
     console.error('WordPress Styles API error:', error);
     return NextResponse.json(

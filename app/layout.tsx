@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     description: "A professional blog powered by WordPress headless CMS and Next.js",
     type: "website",
     locale: "en_US",
-    siteName: "YourSite",
+    siteName: "Vlad Headless CMS",
   },
   twitter: {
     card: "summary_large_image",

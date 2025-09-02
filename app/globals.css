@@ -199,6 +199,29 @@
         padding-left: 0px;
     }
 
+    /* Critical loading styles to prevent FOUC */
+    .elementor-loading {
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .elementor-loaded {
+        opacity: 1;
+    }
+
+    /* Preload critical Elementor styles inline to prevent flash */
+    body.elementor-loading .wordpress-header,
+    body.elementor-loading .wordpress-footer,
+    body.elementor-loading main {
+        visibility: hidden;
+    }
+
+    body.elementor-loaded .wordpress-header,
+    body.elementor-loaded .wordpress-footer,
+    body.elementor-loaded main {
+        visibility: visible;
+    }
+
     a:where(:not(.wp-element-button)) {
         text-decoration: underline;
     }

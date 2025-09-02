@@ -6,8 +6,8 @@ const WP_SITE_URL = WP_API_BASE.replace('http://', 'https://');
 
 export async function GET() {
   try {
-    // Fetch the homepage or any page to extract styles
-    const homeUrl = `${WP_SITE_URL}/`;
+    // Fetch the specific /home/ page to extract all custom styles
+    const homeUrl = `${WP_SITE_URL}/home/`;
     
     console.log('Fetching WordPress styles from:', homeUrl);
     
@@ -27,26 +27,26 @@ export async function GET() {
     // Extract Elementor styles and other important styles
     const styles: string[] = [];
     
-    // Extract all <style> tags - be more inclusive
+    // Extract ALL <style> tags to capture complete page styling
     const styleRegex = /<style[^>]*>([\s\S]*?)<\/style>/gi;
     let styleMatch;
     while ((styleMatch = styleRegex.exec(html)) !== null) {
       if (styleMatch[1]) {
-        // Include all Elementor styles, custom CSS, and inline styles
-        if (styleMatch[0].includes('elementor') || 
-            styleMatch[0].includes('id="global-styles"') ||
-            styleMatch[0].includes('id="wp-block-library"') ||
-            styleMatch[0].includes('custom-css') ||
-            styleMatch[0].includes('inline-css') ||
-            styleMatch[1].includes('.elementor-') ||
-            styleMatch[1].includes('.e-con') ||
-            styleMatch[1].includes('.e-container')) {
-          styles.push(styleMatch[1]);
-        }
+        // Clean up CSS to fix syntax issues
+        let cleanCss = styleMatch[1]
+          // Fix attribute selectors
+          .replace(/\[class\s*\*\s*=\s*([^"\]]+)\]/g, '[class*="$1"]')
+          // Fix media query spacing
+          .replace(/@media\s*\(\s*min-width\s*:\s*(\d+px)\s*\)\s*and\s*\(\s*max-width/g, '@media (min-width: $1) and (max-width')
+          // Remove any invalid CSS that might cause parsing errors
+          .replace(/cursor:not-allowed(?!\s*[;}])/g, 'cursor: not-allowed;')
+          .replace(/background-color:var\(([^)]+)\)(?!\s*[;}])/g, 'background-color: var($1);');
+        
+        styles.push(cleanCss);
       }
     }
     
-    // Extract external stylesheet links
+    // Extract ALL external stylesheet links for complete styling
     const linkRegex = /<link[^>]*rel=["']stylesheet["'][^>]*>/gi;
     const links: string[] = [];
     let linkMatch;
@@ -54,10 +54,11 @@ export async function GET() {
       // Extract href from link tag
       const hrefMatch = /href=["']([^"']+)["']/.exec(linkMatch[0]);
       if (hrefMatch && hrefMatch[1]) {
-        // Filter for Elementor and WordPress core styles
-        if (hrefMatch[1].includes('elementor') || 
-            hrefMatch[1].includes('wp-content/themes') ||
-            hrefMatch[1].includes('wp-includes/css')) {
+        // Include all WordPress and theme-related stylesheets for complete visual match
+        if (hrefMatch[1].includes('wp-content') || 
+            hrefMatch[1].includes('wp-includes') ||
+            hrefMatch[1].includes('elementor') ||
+            hrefMatch[1].includes(WP_SITE_URL.replace('https://', '').replace('http://', ''))) {
           // Ensure HTTPS for all stylesheet URLs
           const url = hrefMatch[1].replace('http://', 'https://');
           links.push(url);

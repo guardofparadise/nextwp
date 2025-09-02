@@ -52,21 +52,19 @@ export default function ElementorStyles() {
     }
   }, [styles]);
 
-  // Load external stylesheets
+  // Load ALL external stylesheets for complete visual match
   useEffect(() => {
     if (styles?.stylesheets && styles.stylesheets.length > 0) {
       const links: HTMLLinkElement[] = [];
       
       styles.stylesheets.forEach((href, index) => {
-        // Only load Elementor-specific stylesheets
-        if (href.includes('elementor')) {
-          const link = document.createElement('link');
-          link.rel = 'stylesheet';
-          link.href = href;
-          link.id = `elementor-stylesheet-${index}`;
-          document.head.appendChild(link);
-          links.push(link);
-        }
+        // Load ALL WordPress-related stylesheets to ensure complete visual match
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = href;
+        link.id = `wordpress-stylesheet-${index}`;
+        document.head.appendChild(link);
+        links.push(link);
       });
 
       return () => {

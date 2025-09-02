@@ -11,7 +11,6 @@ interface FooterData {
 
 export default function WordPressFooter() {
   const [footerData, setFooterData] = useState<FooterData | null>(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch('/api/wordpress/footer')
@@ -20,11 +19,9 @@ export default function WordPressFooter() {
         if (data && !data.error && data.hasContent) {
           setFooterData(data);
         }
-        setLoading(false);
       })
       .catch(err => {
         console.error('Failed to fetch WordPress footer:', err);
-        setLoading(false);
       });
   }, []);
 

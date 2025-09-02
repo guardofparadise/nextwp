@@ -11,7 +11,6 @@ interface HeaderData {
 
 export default function WordPressHeader() {
   const [headerData, setHeaderData] = useState<HeaderData | null>(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch('/api/wordpress/header')
@@ -20,11 +19,9 @@ export default function WordPressHeader() {
         if (data && !data.error && data.hasContent) {
           setHeaderData(data);
         }
-        setLoading(false);
       })
       .catch(err => {
         console.error('Failed to fetch WordPress header:', err);
-        setLoading(false);
       });
   }, []);
 

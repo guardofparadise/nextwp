@@ -33,7 +33,7 @@ export async function GET() {
     while ((styleMatch = styleRegex.exec(html)) !== null) {
       if (styleMatch[1]) {
         // Clean up CSS to fix syntax issues
-        let cleanCss = styleMatch[1]
+        const cleanCss = styleMatch[1]
           // Fix attribute selectors
           .replace(/\[class\s*\*\s*=\s*([^"\]]+)\]/g, '[class*="$1"]')
           // Fix media query spacing

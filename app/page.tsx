@@ -9,6 +9,7 @@ export default async function Home() {
     content: { rendered: string };
   } | null = null;
   let hasError = false;
+  let errorDetails: string = '';
   
   try {
     // Fetch all posts (increase per_page to get all)
@@ -19,6 +20,7 @@ export default async function Home() {
     console.error('Error fetching posts:', error);
     posts = [];
     hasError = true;
+    errorDetails = error instanceof Error ? error.message : String(error);
   }
 
   // Fetch homepage content from WordPress
@@ -123,22 +125,48 @@ export default async function Home() {
           {(!Array.isArray(posts) || posts.length === 0) && (
             <div className="text-center py-12">
               {hasError ? (
-                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 max-w-md mx-auto">
-                  <h3 className="text-lg font-semibold text-yellow-800 mb-2">
-                    WordPress API Connection Issue
-                  </h3>
-                  <p className="text-yellow-700 mb-4">
-                    The WordPress REST API appears to be disabled or unavailable. 
-                    Please check your WordPress configuration.
-                  </p>
-                  <div className="text-sm text-yellow-600">
-                    <p className="font-medium mb-1">To fix this:</p>
-                    <ol className="list-decimal list-inside space-y-1 text-left">
-                      <li>Ensure WordPress REST API is enabled</li>
-                      <li>Check permalink settings (use &ldquo;Post name&rdquo;)</li>
-                      <li>Verify the API URL in .env.local</li>
-                      <li>Check for security plugins blocking API access</li>
-                    </ol>
+                <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-2xl mx-auto">
+                  <div className="flex items-start">
+                    <div className="flex-shrink-0">
+                      <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div className="ml-3">
+                      <h3 className="text-lg font-semibold text-red-800 mb-2">
+                        WordPress API Error
+                      </h3>
+                      <div className="text-red-700 mb-4">
+                        <p className="text-sm mb-2">Failed to fetch posts from WordPress API:</p>
+                        <div className="bg-red-100 border border-red-200 rounded p-3">
+                          <code className="text-xs text-red-800 break-all">
+                            {errorDetails}
+                          </code>
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        <button 
+                          onClick={() => window.location.reload()}
+                          className="inline-flex items-center px-3 py-1.5 bg-red-600 text-white text-xs rounded hover:bg-red-700 transition-colors"
+                        >
+                          Retry
+                          <svg className="ml-1 w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                          </svg>
+                        </button>
+                        <a 
+                          href="https://vladclaudecode.wpenginepowered.com/wp-json/wp/v2/posts" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center px-3 py-1.5 bg-gray-600 text-white text-xs rounded hover:bg-gray-700 transition-colors"
+                        >
+                          Test API
+                          <svg className="ml-1 w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </a>
+                      </div>
+                    </div>
                   </div>
                 </div>
               ) : (

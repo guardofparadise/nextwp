@@ -15,7 +15,7 @@ const getBaseURL = () => {
     const isProduction = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV;
     const baseUrl = isProduction 
       ? 'https://wordpress-1406888-5229870.cloudwaysapps.com/wp-json/wp/v2'
-      : 'http://localhost:3006/api/wordpress';
+      : 'http://localhost:3004/api/wordpress';
     console.log('🔍 Server-side API base URL:', baseUrl);
     console.log('🔍 NODE_ENV:', process.env.NODE_ENV);
     console.log('🔍 VERCEL_ENV:', process.env.VERCEL_ENV);

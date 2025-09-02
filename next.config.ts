@@ -9,6 +9,10 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'wordpress-1406888-5229870.cloudwaysapps.com',
+      },
+      {
+        protocol: 'https',
         hostname: '**.wpenginepowered.com',
       },
       {

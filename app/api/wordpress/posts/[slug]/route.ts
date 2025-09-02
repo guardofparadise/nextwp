@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const WP_API_BASE = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || 'https://vladclaudecode.wpenginepowered.com/wp-json/wp/v2';
+const WP_API_BASE = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || 'https://wordpress-1406888-5229870.cloudwaysapps.com/wp-json/wp/v2';
 
 export async function GET(
   request: NextRequest,

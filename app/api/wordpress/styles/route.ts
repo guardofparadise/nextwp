@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-const WP_API_BASE = process.env.NEXT_PUBLIC_WORDPRESS_API_URL?.replace('/wp-json/wp/v2', '') || 'https://vladclaudecode.wpenginepowered.com';
+const WP_API_BASE = process.env.NEXT_PUBLIC_WORDPRESS_API_URL?.replace('/wp-json/wp/v2', '') || 'https://wordpress-1406888-5229870.cloudwaysapps.com';
 const WP_SITE_URL = WP_API_BASE;
 
 export async function GET() {

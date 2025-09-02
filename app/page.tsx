@@ -46,7 +46,7 @@ export default async function Home() {
     const isProduction = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV;
     const baseUrl = isProduction 
       ? 'https://wordpress-1406888-5229870.cloudwaysapps.com/wp-json/wp/v2'
-      : 'http://localhost:3006/api/wordpress';
+      : 'http://localhost:3004/api/wordpress';
     
     console.log('🏠 Homepage content fetch URL:', `${baseUrl}/pages/home`);
     const response = await fetch(`${baseUrl}/pages/home`, {

@@ -12,16 +12,33 @@ export default async function Home() {
   let errorDetails: string = '';
   
   try {
-    // Fetch all posts (increase per_page to get all)
-    const data = await wpApi.getPosts({ per_page: 100, _embed: true });
-    posts = data?.posts || [];
-    console.log(`Fetched ${posts.length} posts from WordPress`);
-  } catch (error) {
+    console.log('🏠 Homepage: Starting to fetch posts...');
+    console.log('🔧 Environment:', {
+      NODE_ENV: process.env.NODE_ENV,
+      VERCEL_ENV: process.env.VERCEL_ENV,
+      NEXT_PUBLIC_WORDPRESS_API_URL: process.env.NEXT_PUBLIC_WORDPRESS_API_URL
+    });
     
+    const startTime = Date.now();
+    const data = await wpApi.getPosts({ per_page: 100, _embed: true });
+    const endTime = Date.now();
+    
+    posts = data?.posts || [];
+    console.log(`✅ Successfully fetched ${posts.length} posts from WordPress (${endTime - startTime}ms)`);
+    console.log('📊 Posts data structure:', {
+      totalPosts: data?.total,
+      totalPages: data?.totalPages,
+      firstPostTitle: posts[0]?.title?.rendered || 'N/A'
+    });
+  } catch (error) {
     posts = [];
     hasError = true;
     errorDetails = error instanceof Error ? error.message : String(error);
-    console.log('!Error fetching posts:', error);
+    console.error('❌ Error fetching posts:', {
+      message: errorDetails,
+      stack: error instanceof Error ? error.stack : undefined,
+      timestamp: new Date().toISOString()
+    });
   }
 
   // Fetch homepage content from WordPress

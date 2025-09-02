@@ -1,20 +1,25 @@
 import axios from 'axios';
 
-// Use absolute URL for server-side rendering, relative for client-side
+// Use WordPress API directly in production, proxy for development
 const getBaseURL = () => {
   if (typeof window !== 'undefined') {
-    // Client-side
-    console.log('🔍 Client-side API base URL: /api/wordpress');
-    return '/api/wordpress';
+    // Client-side - use WordPress API directly in production, proxy in development
+    const isProduction = process.env.NODE_ENV === 'production';
+    const baseUrl = isProduction 
+      ? 'https://vladclaudecode.wpenginepowered.com/wp-json/wp/v2'
+      : '/api/wordpress';
+    console.log('🔍 Client-side API base URL:', baseUrl);
+    return baseUrl;
   } else {
-    // Server-side - use VERCEL_URL in production, localhost in development
-    const baseUrl = process.env.VERCEL_URL 
-      ? `https://${process.env.VERCEL_URL}`
-      : 'http://localhost:3006';
-    const fullUrl = `${baseUrl}/api/wordpress`;
-    console.log('🔍 Server-side API base URL:', fullUrl);
-    console.log('🔍 VERCEL_URL env var:', process.env.VERCEL_URL);
-    return fullUrl;
+    // Server-side - use WordPress API directly in production, localhost proxy in development
+    const isProduction = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV;
+    const baseUrl = isProduction 
+      ? 'https://vladclaudecode.wpenginepowered.com/wp-json/wp/v2'
+      : 'http://localhost:3006/api/wordpress';
+    console.log('🔍 Server-side API base URL:', baseUrl);
+    console.log('🔍 NODE_ENV:', process.env.NODE_ENV);
+    console.log('🔍 VERCEL_ENV:', process.env.VERCEL_ENV);
+    return baseUrl;
   }
 };
 

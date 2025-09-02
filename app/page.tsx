@@ -43,10 +43,13 @@ export default async function Home() {
 
   // Fetch homepage content from WordPress
   try {
-    const baseUrl = process.env.VERCEL_URL 
-      ? `https://${process.env.VERCEL_URL}`
-      : 'http://localhost:3006';
-    const response = await fetch(`${baseUrl}/api/wordpress/pages/home`, {
+    const isProduction = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV;
+    const baseUrl = isProduction 
+      ? 'https://vladclaudecode.wpenginepowered.com/wp-json/wp/v2'
+      : 'http://localhost:3006/api/wordpress';
+    
+    console.log('🏠 Homepage content fetch URL:', `${baseUrl}/pages/home`);
+    const response = await fetch(`${baseUrl}/pages/home`, {
       cache: 'no-store',
     });
     

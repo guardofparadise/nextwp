@@ -196,8 +196,29 @@ export const wpApi = {
       },
     });
     
-    console.log('✅ wpApi.getPosts response received, total posts:', response.data?.posts?.length || 0);
-    return response.data;
+    console.log('✅ wpApi.getPosts response received');
+    console.log('📊 Response structure:', {
+      isArray: Array.isArray(response.data),
+      hasPostsProperty: 'posts' in (response.data || {}),
+      dataType: typeof response.data,
+      dataLength: Array.isArray(response.data) ? response.data.length : 'Not an array'
+    });
+    
+    // Handle direct WordPress API response (array) vs proxy response (object with posts property)
+    if (Array.isArray(response.data)) {
+      // Direct WordPress API returns an array
+      const total = response.headers['x-wp-total'] ? parseInt(response.headers['x-wp-total']) : response.data.length;
+      const totalPages = response.headers['x-wp-totalpages'] ? parseInt(response.headers['x-wp-totalpages']) : 1;
+      
+      return {
+        posts: response.data,
+        total,
+        totalPages
+      };
+    } else {
+      // Proxy API returns an object
+      return response.data;
+    }
   },
 
   async getPost(slug: string): Promise<Post | null> {

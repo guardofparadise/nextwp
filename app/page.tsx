@@ -108,7 +108,7 @@ export default async function Home() {
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">All Posts</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Explore all our articles and insights - {posts.length} posts available
+              Explore all our articles and insights - {posts?.length || 0} posts available
             </p>
           </div>
 

@@ -1,36 +1,190 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# WordPress Next.js Frontend
 
-## Getting Started
+A professional Next.js frontend application connected to WordPress as a headless CMS.
 
-First, run the development server:
+## Features
+
+- ⚡ **Next.js 14** with App Router for optimal performance
+- 🎨 **Tailwind CSS** for modern, responsive styling
+- 📝 **WordPress REST API** integration for content management
+- 🔍 **SEO Optimized** with metadata, sitemap, and robots.txt
+- 📱 **Fully Responsive** design for all devices
+- 🚀 **TypeScript** for type safety and better developer experience
+- 💾 **SWR** for efficient data fetching and caching
+- ⚠️ **Error Handling** with custom error pages
+- 🔄 **Loading States** for better user experience
+
+## Prerequisites
+
+- Node.js 18+ installed
+- A WordPress installation with REST API enabled
+- WordPress permalink structure set to "Post name" for clean URLs
+
+## Installation
+
+1. Navigate to the project directory:
+```bash
+cd wordpress-frontend
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Configure environment variables:
+   - Update `.env.local` file
+   - Set `NEXT_PUBLIC_WORDPRESS_API_URL` with your WordPress API endpoint
+   - Set `NEXT_PUBLIC_SITE_URL` with your site URL (optional)
+
+## Configuration
+
+### WordPress API Setup
+
+Update the `.env.local` file with your WordPress API endpoint:
+
+```env
+NEXT_PUBLIC_WORDPRESS_API_URL=https://your-wordpress-site.com/wp-json/wp/v2
+NEXT_PUBLIC_SITE_URL=https://your-nextjs-site.com
+```
+
+### Image Domains
+
+If your WordPress site uses a different domain for images, add it to `next.config.ts`:
+
+```typescript
+images: {
+  remotePatterns: [
+    {
+      protocol: 'https',
+      hostname: 'your-wordpress-site.com',
+    },
+  ],
+}
+```
+
+## Development
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+wordpress-frontend/
+├── app/                    # Next.js app directory
+│   ├── blog/              # Blog listing and posts
+│   │   ├── [slug]/        # Individual blog post pages
+│   │   └── page.tsx       # Blog listing page
+│   ├── about/             # About page
+│   ├── contact/           # Contact page
+│   ├── layout.tsx         # Root layout
+│   ├── page.tsx           # Home page
+│   ├── error.tsx          # Error boundary
+│   ├── loading.tsx        # Loading state
+│   ├── not-found.tsx      # 404 page
+│   ├── sitemap.ts         # Sitemap generation
+│   └── robots.ts          # Robots.txt generation
+├── components/            # Reusable components
+│   ├── Header.tsx         # Site header
+│   ├── Footer.tsx         # Site footer
+│   ├── Layout.tsx         # Layout wrapper
+│   ├── PostCard.tsx       # Post card component
+│   ├── LoadingSpinner.tsx # Loading indicator
+│   └── ErrorMessage.tsx   # Error display
+├── lib/                   # Utilities and API
+│   ├── api.ts            # WordPress API client
+│   ├── hooks.ts          # Custom React hooks
+│   └── utils.ts          # Helper functions
+└── public/               # Static assets
+```
 
-## Learn More
+## API Integration
 
-To learn more about Next.js, take a look at the following resources:
+The application uses the WordPress REST API to fetch:
+- Posts with pagination
+- Individual posts by slug
+- Pages
+- Categories and tags
+- Featured images
+- Author information
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Available Hooks
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `usePosts()` - Fetch posts with pagination
+- `usePost(slug)` - Fetch individual post
+- `usePages()` - Fetch pages
+- `usePage(slug)` - Fetch individual page
+- `useCategories()` - Fetch categories
+- `useTags()` - Fetch tags
 
-## Deploy on Vercel
+## Building for Production
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run build
+npm start
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployment
+
+The application can be deployed to any platform that supports Next.js:
+
+### Vercel (Recommended)
+1. Push your code to GitHub
+2. Import the repository in Vercel
+3. Add environment variables
+4. Deploy
+
+### Other Platforms
+- Netlify
+- AWS Amplify
+- Google Cloud Run
+- Docker containers
+
+## Performance Optimizations
+
+- **Image Optimization**: Next.js Image component with lazy loading
+- **Code Splitting**: Automatic code splitting with Next.js
+- **Caching**: SWR for client-side caching
+- **Static Generation**: Where possible, pages are statically generated
+- **SEO**: Complete metadata, sitemap, and structured data
+
+## Customization
+
+### Styling
+- Modify Tailwind config in `tailwind.config.ts`
+- Update global styles in `app/globals.css`
+- Component styles use Tailwind utility classes
+
+### Navigation
+- Edit navigation items in `components/Header.tsx`
+- Footer links in `components/Footer.tsx`
+
+### Content Types
+- Extend the API client in `lib/api.ts` for custom post types
+- Add new interfaces for custom fields
+- Create new hooks in `lib/hooks.ts`
+
+## Troubleshooting
+
+### CORS Issues
+If you encounter CORS errors, ensure your WordPress installation allows requests from your Next.js domain.
+
+### API Not Found
+Verify the WordPress REST API is enabled and the permalink structure is set correctly.
+
+### Images Not Loading
+Check that image domains are properly configured in `next.config.ts`.
+
+## License
+
+MIT
+
+## Support
+
+For issues and questions, please create an issue in the repository.

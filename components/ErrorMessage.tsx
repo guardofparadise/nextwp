@@ -1,6 +1,6 @@
 interface ErrorMessageProps {
   message?: string;
-  error?: Error | any;
+  error?: Error | { response?: { status: number; statusText?: string }; message?: string };
   retry?: () => void;
   showDetails?: boolean;
 }
@@ -14,11 +14,11 @@ export default function ErrorMessage({
   const getErrorDetails = () => {
     if (!error) return null;
     
-    if (error.response?.status) {
+    if ('response' in error && error.response?.status) {
       return `${error.response.status}: ${error.response.statusText || 'API Error'}`;
     }
     
-    if (error.message) {
+    if ('message' in error && error.message) {
       return error.message;
     }
     

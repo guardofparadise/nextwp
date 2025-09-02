@@ -159,6 +159,7 @@ export default function GutenbergGallery() {
         className="relative max-w-7xl max-h-[90vh] flex flex-col items-center"
         onClick={(e) => e.stopPropagation()}
       >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={lightboxImage.src}
           alt={lightboxImage.alt}

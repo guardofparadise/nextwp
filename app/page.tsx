@@ -17,10 +17,11 @@ export default async function Home() {
     posts = data?.posts || [];
     console.log(`Fetched ${posts.length} posts from WordPress`);
   } catch (error) {
-    console.error('Error fetching posts:', error);
+    
     posts = [];
     hasError = true;
     errorDetails = error instanceof Error ? error.message : String(error);
+    console.log('!Error fetching posts:', error);
   }
 
   // Fetch homepage content from WordPress

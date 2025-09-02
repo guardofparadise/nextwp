@@ -6,8 +6,25 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import BlogPostContent from '@/components/BlogPostContent';
 
+// Enable dynamic rendering for posts not pre-generated
+export const dynamicParams = true;
+
 interface Props {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateStaticParams() {
+  try {
+    const data = await wpApi.getPosts({ per_page: 100 });
+    const posts = data?.posts || [];
+    
+    return posts.map((post) => ({
+      slug: post.slug,
+    }));
+  } catch (error) {
+    console.error('Error generating static params for blog posts:', error);
+    return [];
+  }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
